@@ -7,11 +7,17 @@ import os
 load_dotenv()
 
 token = os.getenv("TOKEN")
-ID_ROL = os.getenv("ID_ROL")
+try:
+    ID_ROL = int(os.getenv("ID_ROL"))  # Convertir a entero
+except (ValueError, TypeError):
+    print("Error: ID_ROL no es un número válido o no está configurado")
+    ID_ROL = None
+
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+intents.guilds = True
 
 bot = commands.Bot(command_prefix = "!", intents=intents)
 
@@ -46,7 +52,6 @@ async def clear(ctx):
     await ctx.channel.purge()
     await ctx.send("Todo limpio", delete_after=3)
 
-
 @bot.event
 async def on_ready():
     print(f"running {bot.user}")
@@ -62,7 +67,8 @@ async def on_member_join(member):
         except Exception as e:
             print(f'Error asignando rol: {e}')
     else:
-        print('Rol no encontrado')
-
+        print(f'Rol no encontrado (ID: {ID_ROL})')
+        # Imprimir todos los roles del servidor para diagnóstico
+        print("Roles disponibles:", [f"{r.name} (ID: {r.id})" for r in member.guild.roles])
 
 bot.run(token)
