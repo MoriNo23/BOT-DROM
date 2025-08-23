@@ -7,8 +7,9 @@ class PokedexComant(commands.Cog):
     def __init__(self, bot):
         self.bot = bot,
         
-    @commands.command()
-    async def poked(ctx, args):
+    @commands.command(name="poked")
+    @commands.has_permissions(administrator=True)
+    async def poked(self, ctx, args):
         try:
             pokemon = args.split(" ",1)[0].lower()
             result = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon}")
@@ -24,6 +25,9 @@ class PokedexComant(commands.Cog):
             print("Error: ", e)
 
     @poked.error
-    async def error_type(ctx, error):
+    async def error_type(self, ctx, error):
         if isinstance(error, commands.errors.MissingRequiredArgument):
             await ctx.send("tienes q pasar un pokemon")
+            
+async def setup(bot):
+    await bot.add_cog(PokedexComant(bot))
