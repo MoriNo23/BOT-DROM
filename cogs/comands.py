@@ -4,7 +4,7 @@ class Comand(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="Ns")
+    @commands.command(name="repit")
     @commands.has_permissions(manage_messages=True)
     async def test(self, ctx, *args):
         respuestas = " ".join(args)

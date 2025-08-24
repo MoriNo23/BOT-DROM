@@ -26,7 +26,7 @@ class PokedexComant(commands.Cog):
     @poked.error
     async def error_type(self, ctx, error):
         if isinstance(error, commands.errors.MissingRequiredArgument):
-            await ctx.send("tienes q pasar un pokemon")
+            await ctx.send("tienes que pasar un pokemon")
             
 async def setup(bot):
     await bot.add_cog(PokedexComant(bot))
